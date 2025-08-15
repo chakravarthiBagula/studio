@@ -13,20 +13,19 @@ import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from '../ui/scroll-area';
 
 interface RaidFormProps {
-  raidingTeam: Team;
+  raiderId: string; // Raider is now passed as a prop
   defendingTeam: Team;
   onProcessRaid: (raidData: RaidData) => void;
+  stopRaidTimer: () => void; // Add stopRaidTimer prop
 }
 
-export function RaidForm({ raidingTeam, defendingTeam, onProcessRaid }: RaidFormProps) {
-  const [raiderId, setRaiderId] = useState<string | null>(null);
+export function RaidForm({ raiderId, defendingTeam, onProcessRaid, stopRaidTimer }: RaidFormProps) {
   const [touchedPlayerIds, setTouchedPlayerIds] = useState<string[]>([]);
   const [bonus, setBonus] = useState(false);
   const [isTackled, setIsTackled] = useState(false);
   const [tackledById, setTackledById] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const activeRaiders = raidingTeam.players.filter((p) => p.status === 'active');
   const activeDefenders = defendingTeam.players.filter((p) => p.status === 'active');
 
   const handleTouchedChange = (playerId: string) => {
@@ -36,7 +35,6 @@ export function RaidForm({ raidingTeam, defendingTeam, onProcessRaid }: RaidForm
   };
 
   const resetForm = () => {
-    setRaiderId(null);
     setTouchedPlayerIds([]);
     setBonus(false);
     setIsTackled(false);
@@ -44,10 +42,6 @@ export function RaidForm({ raidingTeam, defendingTeam, onProcessRaid }: RaidForm
   };
 
   const handleSubmit = () => {
-    if (!raiderId) {
-      toast({ title: "Validation Error", description: "Please select a raider.", variant: "destructive" });
-      return;
-    }
     if (isTackled && !tackledById) {
         toast({ title: "Validation Error", description: "Please select the tackler.", variant: "destructive" });
         return;
@@ -72,28 +66,12 @@ export function RaidForm({ raidingTeam, defendingTeam, onProcessRaid }: RaidForm
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline">
           <KabaddiRaiderIcon className="h-6 w-6 text-primary" />
-          Raid Log: {raidingTeam.name}
+          Raid Details
         </CardTitle>
         <CardDescription>Record the outcome of the current raid.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <Label htmlFor="raider-select">Select Raider</Label>
-          <Select value={raiderId ?? ''} onValueChange={setRaiderId}>
-            <SelectTrigger id="raider-select">
-              <SelectValue placeholder="Choose a raider..." />
-            </SelectTrigger>
-            <SelectContent>
-              {activeRaiders.map((player) => (
-                <SelectItem key={player.id} value={player.id}>
-                  {player.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        
-        <Separator />
+        {/* Raider selection is now handled in Scoreboard */}
 
         <div className="space-y-4">
             <div className="flex items-center space-x-2">

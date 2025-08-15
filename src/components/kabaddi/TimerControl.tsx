@@ -9,6 +9,7 @@ interface TimerControlProps {
   status: MatchStatus;
   onTogglePause: () => void;
   onStartHalfTime: () => void;
+  raidTimer: number | null; // Add raidTimer prop
 }
 
 const formatTime = (seconds: number) => {
@@ -17,7 +18,7 @@ const formatTime = (seconds: number) => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
-export function TimerControl({ timer, half, status, onTogglePause, onStartHalfTime }: TimerControlProps) {
+export function TimerControl({ timer, half, status, onTogglePause, onStartHalfTime, raidTimer }: TimerControlProps) { // Destructure raidTimer
   return (
     <Card className="text-center">
       <CardHeader>
@@ -26,9 +27,16 @@ export function TimerControl({ timer, half, status, onTogglePause, onStartHalfTi
           <span>Half {half}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <p className="text-6xl font-bold font-mono text-primary tabular-nums">
-          {formatTime(timer)}
+      <CardContent className="space-y-4 flex flex-col items-center">
+        {raidTimer !== null && ( // Conditionally render raid timer
+          <div className="text-xl font-bold font-mono text-destructive tabular-nums flex items-center gap-2">
+             <Hourglass className="h-5 w-5"/>
+            <span>Raid: {formatTime(raidTimer)}</span>
+          </div>
+        )}
+        <p className={`text-6xl font-bold font-mono text-primary tabular-nums ${raidTimer !== null ? 'mt-2' : ''}`}>
+
+ {formatTime(timer)}
         </p>
         <div className="flex justify-center gap-4">
           <Button onClick={onTogglePause} variant="outline" disabled={status !== 'playing' && status !== 'paused'}>

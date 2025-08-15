@@ -16,7 +16,7 @@ export default function KabaddiScoreMasterPage() {
         <header className="text-center mb-8">
           <h1 className="text-4xl sm:text-5xl font-headline font-bold text-primary">
             Kabaddi ScoreMaster
-          </h1>git 
+          </h1>
           <p className="text-muted-foreground mt-2">
             The ultimate tool for scoring Kabaddi matches in real-time.
           </p>
@@ -24,7 +24,7 @@ export default function KabaddiScoreMasterPage() {
 
         <main>
           {kabaddiMatch.state.status === 'setup' ? (
-            <MatchSetup 
+            <MatchSetup
               teams={kabaddiMatch.state.teams}
               onStartMatch={kabaddiMatch.startMatch}
               onAddPlayer={kabaddiMatch.addPlayer}

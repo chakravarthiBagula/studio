@@ -43,10 +43,12 @@ export interface MatchState {
   raidingTeam: TeamId;
   outCounter: number; // to assign outOrder
   matchHistory: MatchEvent[];
+  raidTimer: number | null;
+  
 }
 
 export type MatchEvent = {
-  type: 'raid' | 'penalty' | 'timeout' | 'half' | 'start' | 'end';
+  type: 'raid' | 'penalty' | 'timeout' | 'half' | 'start' | 'end'| 'bonus' | 'tackle' | 'technical';
   summary: string;
   timestamp: number;
 };
