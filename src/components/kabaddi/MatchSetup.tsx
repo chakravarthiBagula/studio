@@ -76,7 +76,11 @@ function TeamSetupCard({ teamId, team, onAddPlayer, onRemovePlayer, onUpdateTeam
 }
 
 export function MatchSetup({ teams, onStartMatch, onAddPlayer, onRemovePlayer, onUpdateTeamName }: MatchSetupProps) {
-  const canStart = teams.teamA.players.length >= 7 && teams.teamB.players.length >= 7;
+  const canStart = teams?.teamA?.players.length >= 7 && teams?.teamB?.players.length >= 7;
+
+  if (!teams) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="space-y-8">
