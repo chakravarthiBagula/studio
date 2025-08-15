@@ -5,7 +5,6 @@ import { TeamSetupCard } from '@/components/kabaddi/TeamSetupCard'; // Adjust th
 import type { Team, TeamId, Player } from '@/types/kabaddi'; // Import Player type
 import { Button } from '@/components/ui/button';
 import { searchPlayerByName, addPlayer, searchPlayerByPhoneNumber } from '@/lib/firestore/players'; // Import player database functions
-import { searchPlayerByName, addPlayer } from '@/lib/firestore/players'; // Import player database functions
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
 // Assuming initialPlayerStats is defined in your types or a constants file
 // For now, let's define it here for completeness
@@ -175,3 +174,7 @@ export default function MatchSetupPage() {
     </div>
   );
 }
+function uuidv4(): string {
+  throw new Error('Function not implemented.');
+}
+

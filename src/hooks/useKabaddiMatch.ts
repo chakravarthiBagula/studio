@@ -1,7 +1,7 @@
 'use client';
 
 import { useReducer, useEffect, useCallback, useMemo, useState } from 'react'; // Import useState and useRef
-import { doc, setDoc, getFirestore } from 'firebase/firestore'; // Import Firestore functions
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore'; // Import Firestore functions
 import { v4 as uuidv4 } from 'uuid'; // Import uuid for generating player IDs and match IDs
 import type { Player, Team, TeamId, MatchState, RaidData, MatchStatus } from '@/types/kabaddi';
 import { useToast } from "@/hooks/use-toast";
@@ -31,7 +31,7 @@ const createPlayer = (name: string): Player => ({
 });
 
 // Define the type for the new match setup data
-interface NewMatchSetupData {
+export interface NewMatchSetupData {
   teams: Record<TeamId, Team>;
   duration: number; // Match duration in minutes
   initialRaidingTeam: TeamId;
@@ -51,7 +51,8 @@ const initialState: MatchState = {
 };
 
 type Action =
-  | { type: 'ADD_PLAYER'; teamId: TeamId; playerName: string }
+  | { type: 'ADD_PLAYER'; teamId: TeamId; playerName: string } // Add ADD_PLAYER here
+  | { type: 'LOAD_MATCH'; loadedState: MatchState } // Add LOAD_MATCH here
   | { type: 'REMOVE_PLAYER'; teamId: TeamId; playerId: string }
   | { type: 'UPDATE_TEAM_NAME'; teamId: TeamId; name: string }
   | { type: 'START_MATCH' }
